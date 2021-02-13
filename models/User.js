@@ -12,7 +12,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    enrolledCourses: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Course',
+    }]
 });
 
 userSchema.pre('save', function (next) {

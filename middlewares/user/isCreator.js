@@ -1,14 +1,16 @@
-// const productService = require('../../services/productService');
+const {courseService} = require('../../services');
 
 module.exports = async (req, res, next) => {
     if (req.user) {
-        // productService.getOne(req.params.productId, false)
-        //     .then((product) => {
-        //         if (product.creator.toString() !== req.user.id.toString()) {
-        //             return res.redirect('back');
-        //         }
-        //     })
-        //     .catch((error) => next(error));
+        courseService.getById(req.params.courseId)
+            .then((course) => {
+                res.locals.isCreator = course.creator._id.toString() === req.user.id.toString();
+                res.locals.isEnrolled = course.usersEnrolled.some(value => {
+                    return value._id.toString() === req.user.id.toString();
+                })
+
+            })
+            .catch((error) => next(error));
     }
 
     next();

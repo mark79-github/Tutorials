@@ -5,7 +5,7 @@ const {userController, homeController, errorController, courseController} = requ
 
 router.use('/', homeController);
 router.use('/users', userController);
-router.use('/course', courseController);
+router.use('/courses', courseController);
 router.use('*', errorController);
 
 module.exports = router;
