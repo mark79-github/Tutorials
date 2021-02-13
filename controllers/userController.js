@@ -14,14 +14,6 @@ router.post('/login', isGuest, validate.user.login, (req, res) => {
 
     const cookieOptions = {maxAge: 1000 * 60 * 60, httpOnly: true}
 
-    // try {
-    //     let token = userService.login(req.body);
-    //     res.cookie(config.authCookie, token, cookieOptions);
-    //     res.redirect('/products');
-    // } catch (error) {
-    //     res.render('users/login', {message: error.message});
-    // }
-
     userService.login(req.body)
         .then((token) => {
             if (!token) {
@@ -41,19 +33,11 @@ router.get('/register', isGuest, (req, res) => {
 });
 
 router.post('/register', isGuest, validate.user.register, (req, res) => {
-    // try {
-    //     await userService.register(req.body);
-    //     res.redirect('/users/login');
-    // } catch (err) {
-    //     res.render('users/register', {message: err.message});
-    // }
-
     userService.register(req.body)
         .then(() => {
             res.redirect('/users/login');
         })
         .catch(error => {
-            console.log(error);
             res.render('users/register', {message: error.message});
         });
 });

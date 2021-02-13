@@ -10,6 +10,8 @@ module.exports = {
         DURATION_REGEX: /^[0-9]+$/,
     },
     msg: {
+        USERNAME_MIN_LENGTH: "Username must be at least 5 characters",
+        PASSWORD_MIN_LENGTH: "Password must be at least 5 characters",
         USERNAME_ONLY_ALPHABETICAL: "Username must contains only digits and/or latin letters",
         CONFIRMATION_PASSWORD_ERROR: "Your password and confirmation password do not match",
         PASSWORD_ONLY_ALPHABETICAL: "Password must contains only digits and/or latin letters",

@@ -1,30 +1,31 @@
 const mongoose = require('mongoose');
+const {constants} = require('../config/constants');
 
 const courseSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
         unique: true,
-        min: 4,
+        minlength: constants.TITLE_MIN_LENGTH,
     },
     description: {
         type: String,
         required: true,
-        min: 20,
+        minlength: constants.DESCRIPTION_MIN_LENGTH,
     },
     imageUrl: {
         type: String,
         required: true,
-        validate: /^https?/,
+        validate: constants.IMAGE_URL_REGEX,
     },
     duration: {
         type: Number,
         required: true
     },
     createdAt: {
-        type: Date,
+        type: String,
         required: true,
-        default: Date.now()
+        // default: Date.now().toLocaleString(),
     },
     usersEnrolled: [{
         type: mongoose.Types.ObjectId,
@@ -34,6 +35,16 @@ const courseSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }
+});
+
+courseSchema.pre('validate', function (next) {
+    let course = this;
+
+    if (!course.createdAt) {
+        const date = new Date();
+        course.createdAt = date.toDateString();
+    }
+    next();
 });
 
 module.exports = mongoose.model('Course', courseSchema);

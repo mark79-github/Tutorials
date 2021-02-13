@@ -13,7 +13,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    console.log(req.body);
     courseService.getAll(req.body)
         .then((courses) => {
             res.render('home/home', {courses});
@@ -24,7 +23,6 @@ router.post('/', (req, res, next) => {
 router.post('/', isLogged, (req, res, next) => {
     courseService.getAll(req.body)
         .then((courses) => {
-            console.log(req.body);
             res.render('home/home', {courses});
         })
         .catch(next);
@@ -36,7 +34,7 @@ router.get('/create', isLogged, (req, res) => {
 
 router.post('/create', isLogged, validate.course.create, (req, res, next) => {
     courseService.create(req.user.id, req.body)
-        .then((course) => {
+        .then(() => {
             res.redirect('/');
         })
         .catch(next);

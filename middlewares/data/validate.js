@@ -36,8 +36,8 @@ module.exports = {
                 next();
                 return;
             }
-            res.render('users/register', {...user, message: user.errors.shift()});
 
+            res.render('users/register', {...user, message: user.errors.shift()});
         },
         login(req, res, next) {
             const {username, password} = req.body;
@@ -65,6 +65,7 @@ module.exports = {
                 next();
                 return;
             }
+            
             res.render('users/login', {...user, message: user.errors.shift()})
         },
     },

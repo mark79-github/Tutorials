@@ -8,9 +8,7 @@ module.exports = async (req, res, next) => {
                 res.locals.isEnrolled = course.usersEnrolled.some(value => {
                     return value._id.toString() === req.user.id.toString();
                 })
-
-            })
-            .catch((error) => next(error));
+            });
     }
 
     next();
