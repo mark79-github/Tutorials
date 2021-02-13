@@ -3,7 +3,7 @@ const {constants, msg} = require('../../config/constants');
 module.exports = {
     user: {
         register(req, res, next) {
-            const {username, password, repeatPassword} = req.body;
+            const {username, password, rePassword} = req.body;
 
             let user = {
                 errors: [],
@@ -24,7 +24,7 @@ module.exports = {
                 user.errors.push(msg.PASSWORD_MIN_LENGTH);
             }
 
-            if (password.trim() !== repeatPassword.trim()) {
+            if (password.trim() !== rePassword.trim()) {
                 user.errors.push(msg.CONFIRMATION_PASSWORD_ERROR);
             }
 

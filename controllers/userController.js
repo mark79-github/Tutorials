@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const {userService} = require('../services');
 const config = require('../config/config');
-const {msg}  = require('../config/constants');
+const {msg} = require('../config/constants');
 const {isGuest, isLogged, validate} = require('../middlewares');
 
 const router = Router();
@@ -29,7 +29,7 @@ router.post('/login', isGuest, validate.user.login, (req, res) => {
             }
             return res
                 .cookie(config.authCookie, token, cookieOptions)
-                .redirect('/products');
+                .redirect('/');
         })
         .catch((error) => {
             res.render('users/login', {message: error.message});
