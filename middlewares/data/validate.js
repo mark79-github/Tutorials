@@ -67,5 +67,82 @@ module.exports = {
             }
             res.render('users/login', {...user, message: user.errors.shift()})
         },
+    },
+    course: {
+        create(req, res, next) {
+            const {title, description, imageUrl, duration} = req.body;
+
+            let course = {
+                errors: [],
+            };
+
+            if (title.trim().length === 0 || title.trim().length < constants.TITLE_MIN_LENGTH) {
+                course.errors.push(msg.TITLE_MIN_LENGTH);
+            } else {
+                course.title = title.trim();
+            }
+
+            if (description.trim().length === 0 || description.trim().length < constants.DESCRIPTION_MIN_LENGTH) {
+                course.errors.push(msg.DESCRIPTION_MIN_LENGTH);
+            } else {
+                course.description = description.trim();
+            }
+
+            if (!constants.IMAGE_URL_REGEX.test(imageUrl.trim())) {
+                course.errors.push(msg.IMAGE_URL_INVALID);
+            } else {
+                course.imageUrl = imageUrl.trim();
+            }
+
+            if (!constants.DURATION_REGEX.test(duration.trim())) {
+                course.errors.push(msg.DURATION_ONLY_DIGITS);
+            } else {
+                course.duration = duration.trim();
+            }
+
+            if (!course.errors.length) {
+                next();
+                return;
+            }
+            res.render('courses/create', {...course, message: course.errors.shift()});
+
+        },
+        edit(req, res, next) {
+            const {title, description, imageUrl, duration} = req.body;
+
+            let course = {
+                errors: [],
+            };
+
+            if (title.trim().length === 0 || title.trim().length < constants.TITLE_MIN_LENGTH) {
+                course.errors.push(msg.TITLE_MIN_LENGTH);
+            } else {
+                course.title = title.trim();
+            }
+
+            if (description.trim().length === 0 || description.trim().length < constants.DESCRIPTION_MIN_LENGTH) {
+                course.errors.push(msg.DESCRIPTION_MIN_LENGTH);
+            } else {
+                course.description = description.trim();
+            }
+
+            if (!constants.IMAGE_URL_REGEX.test(imageUrl.trim())) {
+                course.errors.push(msg.IMAGE_URL_INVALID);
+            } else {
+                course.imageUrl = imageUrl.trim();
+            }
+
+            if (!constants.DURATION_REGEX.test(duration.trim())) {
+                course.errors.push(msg.DURATION_ONLY_DIGITS);
+            } else {
+                course.duration = duration.trim();
+            }
+
+            if (!course.errors.length) {
+                next();
+                return;
+            }
+            res.render('courses/edit', {...course, message: course.errors.shift()});
+        }
     }
 }

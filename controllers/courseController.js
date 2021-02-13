@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const {courseService} = require('../services');
-const {isCreator} = require('../middlewares');
+const {isCreator, isLogged, validate} = require('../middlewares');
 
 const router = Router();
 
@@ -13,6 +13,15 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    console.log(req.body);
+    courseService.getAll(req.body)
+        .then((courses) => {
+            res.render('home/home', {courses});
+        })
+        .catch(next);
+});
+
+router.post('/', isLogged, (req, res, next) => {
     courseService.getAll(req.body)
         .then((courses) => {
             console.log(req.body);
@@ -21,11 +30,11 @@ router.post('/', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', isLogged, (req, res) => {
     res.render('courses/create');
 });
 
-router.post('/create', (req, res, next) => {
+router.post('/create', isLogged, validate.course.create, (req, res, next) => {
     courseService.create(req.user.id, req.body)
         .then((course) => {
             res.redirect('/');
@@ -33,7 +42,7 @@ router.post('/create', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/details/:courseId', isCreator, (req, res, next) => {
+router.get('/details/:courseId', isLogged, isCreator, (req, res, next) => {
     courseService.getById(req.params.courseId)
         .then((course) => {
             res.render('courses/details', {...course});
@@ -41,14 +50,14 @@ router.get('/details/:courseId', isCreator, (req, res, next) => {
         .catch(next);
 });
 
-router.get('/edit/:courseId', (req, res, next) => {
+router.get('/edit/:courseId', isLogged, (req, res, next) => {
     courseService.getById(req.params.courseId)
         .then(course => {
             res.render('courses/edit', {...course});
         }).catch(next);
 });
 
-router.post('/edit/:courseId', (req, res, next) => {
+router.post('/edit/:courseId', isLogged, validate.course.edit, (req, res, next) => {
     courseService.edit(req.params.courseId, req.body)
         .then((course) => {
             res.redirect(`/courses/details/${course._id}`);
@@ -56,14 +65,14 @@ router.post('/edit/:courseId', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/delete/:courseId', (req, res, next) => {
+router.get('/delete/:courseId', isLogged, (req, res, next) => {
     courseService.remove(req.params.courseId)
         .then(() => {
             res.redirect('/');
         }).catch(next);
 });
 
-router.get('/enroll/:courseId', (req, res, next) => {
+router.get('/enroll/:courseId', isLogged, (req, res, next) => {
     courseService.enroll(req.params.courseId, req.user.id)
         .then(([course]) => {
             res.redirect(`/courses/details/${course._id}`);

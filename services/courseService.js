@@ -9,7 +9,7 @@ function getAll(data) {
         const {title} = data;
         let queryParams = {};
         queryParams.title = new RegExp(title, 'i');
-        return Course.find({queryParams}).lean();
+        return Course.find({title: queryParams.title}).lean();
     } else {
         return Course.find({}).lean();
     }

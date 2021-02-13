@@ -53,6 +53,7 @@ router.post('/register', isGuest, validate.user.register, (req, res) => {
             res.redirect('/users/login');
         })
         .catch(error => {
+            console.log(error);
             res.render('users/register', {message: error.message});
         });
 });

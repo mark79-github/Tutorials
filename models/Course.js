@@ -4,15 +4,18 @@ const courseSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        min: 4,
     },
     description: {
         type: String,
         required: true,
+        min: 20,
     },
     imageUrl: {
         type: String,
         required: true,
+        validate: /^https?/,
     },
     duration: {
         type: Number,

@@ -4,6 +4,10 @@ module.exports = {
         PASSWORD_MIN_LENGTH: 5,
         USERNAME_REGEX: /^[A-Za-z0-9]+$/,
         PASSWORD_REGEX: /^[A-Za-z0-9]+$/,
+        TITLE_MIN_LENGTH: 4,
+        DESCRIPTION_MIN_LENGTH: 20,
+        IMAGE_URL_REGEX: /^https?/,
+        DURATION_REGEX: /^[0-9]+$/,
     },
     msg: {
         USERNAME_ONLY_ALPHABETICAL: "Username must contains only digits and/or latin letters",
@@ -20,5 +24,9 @@ module.exports = {
         APPLICATION_RUNNING: (port) => {
             return `Application is up & listening on port ${port} ...`;
         },
+        TITLE_MIN_LENGTH: `Title must be at least 4 characters`,
+        DESCRIPTION_MIN_LENGTH: `Description must be at least 20 characters`,
+        IMAGE_URL_INVALID: "ImageUrl must start with http or https",
+        DURATION_ONLY_DIGITS: "Duration must contains only digits",
     }
 }
