@@ -4,6 +4,13 @@ function getById(courseId) {
     return Course.findById(courseId).lean();
 }
 
+function getMostEnrolled(numberOfCourses) {
+    return Course.find({})
+        .sort({usersEnrolled: -1})
+        .limit(numberOfCourses)
+        .lean();
+}
+
 function getAll(data) {
     if (data) {
         const {title} = data;
@@ -43,6 +50,7 @@ function enroll(courseId, userId) {
 module.exports = {
     getById,
     getAll,
+    getMostEnrolled,
     create,
     edit,
     remove,

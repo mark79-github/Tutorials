@@ -8,6 +8,7 @@ module.exports = {
         DESCRIPTION_MIN_LENGTH: 20,
         IMAGE_URL_REGEX: /^https?/,
         DURATION_REGEX: /^[0-9]+$/,
+        MOST_POPULAR_COURSES : 3,
     },
     msg: {
         USERNAME_MIN_LENGTH: "Username must be at least 5 characters",

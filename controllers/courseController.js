@@ -1,23 +1,24 @@
 const {Router} = require('express');
 const {courseService} = require('../services');
 const {isCreator, isLogged, validate} = require('../middlewares');
+const {constants} = require('../config/constants');
 
 const router = Router();
 
 router.get('/', (req, res, next) => {
-    courseService.getAll()
-        .then((courses) => {
-            res.render('home/home', {courses});
-        })
-        .catch(next);
-});
-
-router.post('/', (req, res, next) => {
-    courseService.getAll(req.body)
-        .then((courses) => {
-            res.render('home/home', {courses});
-        })
-        .catch(next);
+    if (req.user) {
+        courseService.getAll()
+            .then((courses) => {
+                res.render('home/home', {courses});
+            })
+            .catch(next);
+    } else {
+        courseService.getMostEnrolled(constants.MOST_POPULAR_COURSES)
+            .then((courses) => {
+                res.render('home/home', {courses});
+            })
+            .catch(next);
+    }
 });
 
 router.post('/', isLogged, (req, res, next) => {
